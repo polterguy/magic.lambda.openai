@@ -1,4 +1,6 @@
-// @author: Devis Lucato. @license: CC0.
+/*
+ * Magic Cloud, copyright Aista, Ltd. See the attached LICENSE file for details.
+ */
 
 using System;
 using System.Collections.Concurrent;
