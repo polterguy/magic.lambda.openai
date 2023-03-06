@@ -10,7 +10,7 @@
     <Description>OpenAI helper slots for Magic, giving you some helper slots to count tokens, etc. To use package go to https://polterguy.github.io</Description>
     <PackageProjectUrl>https://aista.com</PackageProjectUrl>
     <PackOnBuild>true</PackOnBuild>
-    <PackageVersion>15.5.0</PackageVersion>
+    <PackageVersion>15.7.0</PackageVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/polterguy/magic.lambda.openai</RepositoryUrl>
@@ -49,8 +49,8 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="magic.node.extensions" Version="15.5.0" />
-    <PackageReference Include="magic.signals.contracts" Version="15.5.0" />
+    <PackageReference Include="magic.node.extensions" Version="15.7.0" />
+    <PackageReference Include="magic.signals.contracts" Version="15.7.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,12 +11,12 @@ using System.Text.RegularExpressions;
 
 namespace magic.lambda.openai.utilities
 {
-    public static class GPT3Tokenizer
+    internal static class GPT3Tokenizer
     {
-        private static readonly ConcurrentDictionary<string, string> BPE_CACHE = new ConcurrentDictionary<string, string>();
-        private static Dictionary<int, char>? BYTES_TO_UNICODE_CACHE;
+        static readonly ConcurrentDictionary<string, string> BPE_CACHE = new ConcurrentDictionary<string, string>();
+        static Dictionary<int, char>? BYTES_TO_UNICODE_CACHE;
 
-        public static List<int> Encode(string text)
+        internal static List<int> Encode(string text)
         {
             if (string.IsNullOrEmpty(text))
                 return new List<int>();
@@ -36,24 +36,26 @@ namespace magic.lambda.openai.utilities
             return bpeTokens;
         }
 
-        public static List<int> Encode(StringBuilder? stringBuilder)
+        internal static List<int> Encode(StringBuilder? stringBuilder)
         {
             return stringBuilder == null ? new List<int>() : Encode(stringBuilder.ToString());
         }
 
-        public static List<int> Encode(char[]? chars)
+        internal static List<int> Encode(char[]? chars)
         {
             return chars == null ? new List<int>() : Encode(new string(chars));
         }
 
-        public static List<int> Encode(IEnumerable<char>? chars)
+        internal static List<int> Encode(IEnumerable<char>? chars)
         {
             return chars == null ? new List<int>() : Encode(chars.ToArray());
         }
 
-        private static int Ord(string x) => char.ConvertToUtf32(x, 0);
+        #region [ -- Private helper methods -- ]
 
-        private static Dictionary<int, char> BytesToUnicode()
+        static int Ord(string x) => char.ConvertToUtf32(x, 0);
+
+        static Dictionary<int, char> BytesToUnicode()
         {
             // Note: no visible gain with this
             if (BYTES_TO_UNICODE_CACHE != null)
@@ -82,7 +84,7 @@ namespace magic.lambda.openai.utilities
             return BYTES_TO_UNICODE_CACHE;
         }
 
-        private static string BytePairEncoding(string token)
+        static string BytePairEncoding(string token)
         {
             if (BPE_CACHE.ContainsKey(token)) return BPE_CACHE[token];
 
@@ -110,7 +112,7 @@ namespace magic.lambda.openai.utilities
                     }
                 }
 
-                Tuple<string, string> biGram = minPairs[minPairs.Keys.Min()];
+                var biGram = minPairs[minPairs.Keys.Min()];
                 if (!GPT3Settings.BpeRanks.ContainsKey(biGram)) break;
 
                 string first = biGram.Item1;
@@ -156,10 +158,7 @@ namespace magic.lambda.openai.utilities
             return result;
         }
 
-        /// <summary>
-        /// Return set of symbol pairs in a word.
-        /// </summary>
-        private static List<Tuple<string, string>> GetPairs(List<string> word)
+        static List<Tuple<string, string>> GetPairs(List<string> word)
         {
             var result = new List<Tuple<string, string>>();
 
@@ -173,5 +172,7 @@ namespace magic.lambda.openai.utilities
 
             return result;
         }
+
+        #endregion
     }
 }
